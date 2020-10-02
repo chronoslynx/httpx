@@ -27,6 +27,7 @@ type Options struct {
 	VHostIgnoreNumberOfWords bool
 	VHostIgnoreNumberOfLines bool
 	VHostStripHTML           bool
+	MaxIPReqsPerSec          int
 }
 
 // DefaultOptions contains the default options

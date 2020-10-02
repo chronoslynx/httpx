@@ -38,6 +38,10 @@ func NewDialer(options Options) (DialerFunc, error) {
 		KeepAlive: 10 * time.Second,
 		DualStack: true,
 	}
+	var limiter *Limiter
+	if options.MaxIPReqsPerSec > 0 {
+		limiter = NewLimiter(options.MaxIPReqsPerSec)
+	}
 	return func(ctx context.Context, network, address string) (conn net.Conn, err error) {
 		separator := strings.LastIndex(address, ":")
 
@@ -48,6 +52,9 @@ func NewDialer(options Options) (DialerFunc, error) {
 			return nil, &NoAddressFoundError{}
 		} // Dial to the IPs finally.
 		for _, ip := range dnsResult.IPs {
+			if limiter != nil {
+				limiter.Take(ip)
+			}
 			conn, err = dialer.DialContext(ctx, network, ip+address[separator:])
 			if err == nil {
 				setErr := dialerHistory.Set([]byte(hostname), []byte(ip), 0)

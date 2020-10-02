@@ -47,6 +47,7 @@ func main() {
 	httpxOptions.HTTPProxy = options.HTTPProxy
 	httpxOptions.Unsafe = options.Unsafe
 	httpxOptions.RequestOverride = httpx.RequestOverride{URIPath: options.RequestURI}
+	httpxOptions.MaxIPReqsPerSec = options.MaxIPReqsPerSec
 
 	var key, value string
 	httpxOptions.CustomHeaders = make(map[string]string)
@@ -694,6 +695,7 @@ type Options struct {
 	HTTP2Probe                bool
 	OutputCDN                 bool
 	OutputResponseTime        bool
+	MaxIPReqsPerSec           int
 }
 
 // ParseOptions parses the command line options for application
@@ -749,6 +751,7 @@ func ParseOptions() *Options {
 	flag.BoolVar(&options.OutputCName, "cname", false, "Output first cname")
 	flag.BoolVar(&options.OutputCDN, "cdn", false, "Check if domain's ip belongs to known CDN (akamai, cloudflare, ..)")
 	flag.BoolVar(&options.OutputResponseTime, "response-time", false, "Output the response time")
+	flag.IntVar(&options.MaxIPReqsPerSec, "requests-per-ip-second", 0, "Maximum number of TCP connections to allow per IP per second")
 
 	flag.Parse()
 

@@ -16,6 +16,7 @@ require (
 	github.com/projectdiscovery/retryablehttp-go v1.0.1
 	github.com/remeh/sizedwaitgroup v1.0.0
 	github.com/rs/xid v1.2.1
+	go.uber.org/ratelimit v0.1.0
 	golang.org/x/net v0.0.0-20200927032502-5d4f70055728
 	golang.org/x/text v0.3.3
 )

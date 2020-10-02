@@ -34,7 +34,15 @@ type HTTPX struct {
 // New httpx instance
 func New(options *Options) (*HTTPX, error) {
 	httpx := &HTTPX{}
-	dialer, err := cache.NewDialer(cache.DefaultOptions)
+	// Merge default opts with our overrides
+	dialOpts := cache.Options{
+		BaseResolvers:   cache.DefaultOptions.BaseResolvers,
+		CacheSize:       cache.DefaultOptions.CacheSize,
+		ExpirationTime:  cache.DefaultOptions.ExpirationTime,
+		MaxRetries:      cache.DefaultOptions.MaxRetries,
+		MaxIPReqsPerSec: options.MaxIPReqsPerSec,
+	}
+	dialer, err := cache.NewDialer(dialOpts)
 	if err != nil {
 		return nil, fmt.Errorf("could not create resolver cache: %s", err)
 	}

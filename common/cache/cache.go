@@ -23,10 +23,11 @@ type Resolver interface {
 
 // Options of the cache
 type Options struct {
-	BaseResolvers  []string
-	CacheSize      int
-	ExpirationTime int
-	MaxRetries     int
+	BaseResolvers   []string
+	CacheSize       int
+	ExpirationTime  int
+	MaxRetries      int
+	MaxIPReqsPerSec int
 }
 
 // DefaultOptions of the cache
